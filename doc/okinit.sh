@@ -87,5 +87,8 @@ cat $LJ
 echo -e "-------------------------------\n配置网卡信息成功\n----------------------------------------------"
 #重启网卡
 systemctl restart network
+#删除垃圾文件
+rm -rf /root/key*
+rm -rf $INFO
 #重启服务器
 reboot
