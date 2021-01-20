@@ -1,5 +1,10 @@
 #!/bin/bash
 #centos7初始化脚本1.1.9
+# @Author: Aliao  
+# @Repository: https://github.com/vod-ka   
+# @Date: 2021-01-18 23:30:08  
+# @Last Modified by:   Aliao  
+# @Last Modified time: 2021-01-20 16:18:11
 #更新yum源(阿里云的源)
 mv -f /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 cd /etc/yum.repos.d/
