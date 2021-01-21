@@ -5,6 +5,20 @@
 # @Date: 2021-01-18 23:30:08  
 # @Last Modified by:   Aliao  
 # @Last Modified time: 2021-01-20 16:18:11
+
+#颜色
+Green(){
+    echo -e "\033[32;01m$1\033[0m"
+}
+
+Red(){
+    echo -e "\033[31;01m$1\033[0m"
+}
+
+Blue(){
+    echo -e "\033[34;01m$1\033[0m"
+}
+
 #更新yum源(阿里云的源)
 mv -f /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 cd /etc/yum.repos.d/
@@ -31,14 +45,14 @@ SNAME=$(sed -n '2p' $INFO)
 hostnamectl set-hostname $SNAME
 sed -i "1s/127.0.0.1   /127.0.0.1   $SNAME /g" /etc/hosts
 hostname
-echo -e "----------------------------------------\n设置主机名成功\n------------------------------------------"
+Green "----------------------------------------设置主机名成功"
 #设置时区
 timedatectl set-timezone Asia/Shanghai
-echo -e "----------------------------------------\n设置时区为：中国上海\n-------------------------------------"
+Green "----------------------------------------设置时区为：中国上海"
 #关闭SElinux
 sed -i '7s/enforcing/disabled/g' /etc/selinux/config
 sed -n '7p' /etc/selinux/config
-echo -e "-----------------------------------------\n关闭SElinux成功\n------------------------------------------"
+Green "----------------------------------------关闭SElinux成功"
 #防火墙设置
 systemctl start firewalld
 firewall-cmd --zone=public --add-service=http --permanent > /dev/null
@@ -50,9 +64,9 @@ firewall-cmd --zone=public --add-port=80/tcp --permanent > /dev/null
 firewall-cmd --zone=public --add-port=443/tcp --permanent > /dev/null
 firewall-cmd --reload > /dev/null
 firewall-cmd --list-all
-echo -e "-----------------------------------------\n防火墙添加端口和服务成功\n----------------------------------"
+Green "---------------------------------------防火墙添加端口和服务成功"
 systemctl enable firewalld > /dev/null
-echo -e "-----------------------------------------\n设置防火墙开机自启动成功\n-----------------------------------"
+Green "---------------------------------------设置防火墙开机自启动成功"
 #修改ssh密钥登陆
 KLJ="/root/.ssh"
 SLJ="/etc/ssh/sshd_config"
@@ -67,7 +81,7 @@ sed -i '43s/#Pubkey/Pubkey/g' $SLJ
 sed -i '65s/yes/no/g' $SLJ
 sed -n '43p;47p;65p' $SLJ
 systemctl restart sshd
-echo -e "--------------------------------\n设置ssh密钥验证登陆成功\n--------------------------------------"
+Green "---------------------------------------设置ssh密钥验证登陆成功"
 #修改网卡ip
 WKM=$(sed -n '3p' $INFO)
 LJ=$(find /etc -name ifcfg-$WKM)
@@ -89,7 +103,7 @@ echo "GATEWAY=$WGDZ" >> $LJ
 echo "DNS1=$DNSDZ" >> $LJ
 #检验配置结果
 cat $LJ
-echo -e "-------------------------------\n配置网卡信息成功\n----------------------------------------------"
+Green "--------------------------------------配置网卡信息成功"
 #重启网卡
 systemctl restart network
 #删除垃圾文件
