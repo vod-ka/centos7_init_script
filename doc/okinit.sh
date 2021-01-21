@@ -1,5 +1,5 @@
 #!/bin/bash
-#centos7初始化脚本1.1.9
+#centos7初始化脚本 v1.2.2
 # @Author: Aliao  
 # @Repository: https://github.com/vod-ka   
 # @Date: 2021-01-18 23:30:08  
