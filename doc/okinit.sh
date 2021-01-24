@@ -41,9 +41,9 @@ yum makecache
 yum install -y wget curl vim screen zip unzip net-tools psmisc bash-completion iftop htop httpd vsftpd
 #修改主机名
 INFO=/root/info.txt
-SNAME=$(sed -n '2p' $INFO)
-hostnamectl set-hostname $SNAME
-sed -i "1s/127.0.0.1   /127.0.0.1   $SNAME /g" /etc/hosts
+sname=$(sed -n '2p' $INFO)
+hostnamectl set-hostname $sname
+sed -i "1s/127.0.0.1   /127.0.0.1   $sname /g" /etc/hosts
 hostname
 Green "----------------------------------------设置主机名成功"
 #设置时区
@@ -83,26 +83,26 @@ sed -n '43p;47p;65p' $SLJ
 systemctl restart sshd
 Green "---------------------------------------设置ssh密钥验证登陆成功"
 #修改网卡ip
-WKM=$(sed -n '3p' $INFO)
-LJ=$(find /etc -name ifcfg-$WKM)
+wkm=$(sed -n '3p' $INFO)
+lj=$(find /etc -name ifcfg-$wkm)
 IPDZ=$(sed -n '4p' $INFO)
 ZWYM=$(sed -n '5p' $INFO)
 WGDZ=$(sed -n '6p' $INFO)
 DNSDZ=$(sed -n '7p' $INFO)
 #查找是否已经存在静态ip配置信息，如果存在则把它删掉
-sed -i '/BOOTPROTO/s/dhcp/static/g' $LJ
-sed -i '/ONBOOT/s/no/yes/g' $LJ
-sed -i '/IPADDR/d' $LJ
-sed -i '/NETMASK/d' $LJ
-sed -i '/GATEWAY/d' $LJ
-sed -i '/DNS1/d' $LJ
+sed -i '/BOOTPROTO/s/dhcp/static/g' $lj
+sed -i '/ONBOOT/s/no/yes/g' $lj
+sed -i '/IPADDR/d' $lj
+sed -i '/NETMASK/d' $lj
+sed -i '/GATEWAY/d' $lj
+sed -i '/DNS1/d' $lj
 #写入静态ip配置信息
-echo "IPADDR=$IPDZ" >> $LJ
-echo "NETMASK=$ZWYM" >> $LJ
-echo "GATEWAY=$WGDZ" >> $LJ
-echo "DNS1=$DNSDZ" >> $LJ
+echo "IPADDR=$IPDZ" >> $lj
+echo "NETMASK=$ZWYM" >> $lj
+echo "GATEWAY=$WGDZ" >> $lj
+echo "DNS1=$DNSDZ" >> $lj
 #检验配置结果
-cat $LJ
+cat $lj
 Green "--------------------------------------配置网卡信息成功"
 #重启网卡
 systemctl restart network
