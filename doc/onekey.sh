@@ -6,16 +6,16 @@
 # @Last Modified time: 2021-01-24 12:02:43  
 
 info="$HOME/info.txt"
-sname=$(sed -n '2p' $info)
+sname=$(sed -n '2p' "$info")
 klj="$HOME/.ssh"
 slj="/etc/ssh/sshd_config"
 skey="$HOME/key.zip"
-wkm=$(sed -n '3p' $info)
-lj=$(find /etc -name ifcfg-$wkm)
-ipdz=$(sed -n '4p' $info)
-zwym=$(sed -n '5p' $info)
-wgdz=$(sed -n '6p' $info)
-dnsdz=$(sed -n '7p' $info)
+wkm=$(sed -n '3p' "$info")
+lj=$(find /etc -name "ifcfg-$wkm")
+ipdz=$(sed -n '4p' "$info")
+zwym=$(sed -n '5p' "$info")
+wgdz=$(sed -n '6p' "$info")
+dnsdz=$(sed -n '7p' "$info")
 
 #颜色
 Green(){
@@ -72,7 +72,7 @@ InstallApp(){
 
 #修改主机名
 Rename(){
-    hostnamectl set-hostname $sname
+    hostnamectl set-hostname "$sname"
     sed -i "1s/127.0.0.1   /127.0.0.1   $sname /g" /etc/hosts
     hostname
     Green "----------------------------------------设置主机名成功"
@@ -104,10 +104,10 @@ Firewall(){
 
 #修改ssh密钥登陆
 SSH(){
-    mkdir $klj
-    unzip $skey -d  $klj
-    cat $klj/id_rsa.pub >> $klj/authorized_keys
-    chmod 600 $klj/authorized_keys
+    mkdir "$klj"
+    unzip "$skey" -d  "$klj"
+    cat "$klj/id_rsa.pub" >> "$klj/authorized_keys"
+    chmod 600 "$klj/authorized_keys"
     sed -i '43s/#Pubkey/Pubkey/g' $slj
     sed -i '65s/yes/no/g' $slj
     sed -n '43p;47p;65p' $slj
@@ -118,19 +118,16 @@ SSH(){
 #修改网卡ip
 Ipconfig(){
     #查找是否已经存在静态ip配置信息，如果存在则把它删掉
-    sed -i '/BOOTPROTO/s/dhcp/static/g' $lj
-    sed -i '/ONBOOT/s/no/yes/g' $lj 
-    sed -i '/IPADDR/d' $lj
-    sed -i '/NETMASK/d' $lj
-    sed -i '/GATEWAY/d' $lj
-    sed -i '/DNS1/d' $lj
+    sed -i '/BOOTPROTO/s/dhcp/static/g' "$lj"
+    sed -i '/ONBOOT/s/no/yes/g' "$lj" 
+    sed -i '/IPADDR/d' "$lj"
+    sed -i '/NETMASK/d' "$lj"
+    sed -i '/GATEWAY/d' "$lj"
+    sed -i '/DNS1/d' "$lj"
     #写入静态ip配置信息
-    echo "IPADDR=$ipdz" >> $lj
-    echo "NETMASK=$zwym" >> $lj
-    echo "GATEWAY=$wgdz" >> $lj
-    echo "DNS1=$dnsdz" >> $lj
+    echo -e "IPADDR=$ipdz\nNETMASK=$zwym\nGATEWAY=$wgdz\nDNS1=$dnsdz" >> "$lj"
     #检验配置结果
-    cat $lj
+    cat "$lj"
     Green "--------------------------------------配置网卡信息成功"
     #重启网卡
     systemctl restart network
@@ -138,8 +135,8 @@ Ipconfig(){
 
 #清楚垃圾
 Rm-all(){
-    rm -rf $HOME/key*
-    rm -rf $info
+    rm -rf "$HOME/key*"
+    rm -rf "$info"
     find / -name onekey.sh -exec rm -rf {} \;
 }
 
