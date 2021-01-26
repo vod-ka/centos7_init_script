@@ -33,7 +33,7 @@ Blue(){
 #更新yum源
 SourceUpdate(){
     mv -f /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-    #cd /etc/yum.repos.d/ || exit 0
+    cd /etc/yum.repos.d/ || exit 0
     curl -O http://mirrors.aliyun.com/repo/Centos-7.repo
     mv -f Centos-7.repo CentOS-Base.repo
     yum clean all
