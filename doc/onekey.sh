@@ -133,6 +133,22 @@ Ipconfig(){
     systemctl restart network
 }
 
+#安装Git
+GitInstall(){
+    #卸载旧版
+    yum remove github
+    #编译安装
+    yum install -y wget gcc gcc-c++ zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto openssl-devel
+    wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.29.2.tar.xz
+    tar -xvJf git-2.29.2.tar.xz
+    cd "$HOME/git-2.29.2" || exit 0
+    ./configure --prefix=/usr/local/git
+    make && make install
+    echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc
+    source /etc/bashrc
+    git --version
+}
+
 #清楚垃圾
 Rm-all(){
     rm -rf "$HOME/key*"
