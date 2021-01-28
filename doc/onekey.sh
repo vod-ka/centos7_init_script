@@ -169,6 +169,7 @@ Firewall
 Rename
 SSH
 Ipconfig
+GitInstall
 Rm-all
 #重启计算机
 reboot
