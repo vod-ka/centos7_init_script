@@ -154,6 +154,7 @@ Rm-all(){
     rm -rf "$HOME/key*"
     rm -rf "$info"
     find / -name onekey.sh -exec rm -rf {} \;
+    rm -rf "$HOME/git*"
 }
 
 #main
