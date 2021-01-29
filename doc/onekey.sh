@@ -42,15 +42,17 @@ SourceUpdate(){
 
 #yum更新
 YumUpdate(){
-    yum update -y
+    Blue "更新系统..."
+    yum update -y > /dev/null 2>&1
 }
 
 #安装网络对时
 NetworkTime(){
-    yum install -y ntp ntpdate
+    Blue "安装网络对时..."
+    yum install -y ntp ntpdate > /dev/null 2>&1
     systemctl start ntpd
-    systemctl enable ntpd > /dev/null
-    ntpdate ntp3.aliyun.com > /dev/null
+    systemctl enable ntpd > /dev/null 2>&1
+    ntpdate ntp3.aliyun.com > /dev/null 2>&1
 }
 
 #设置时区
@@ -60,18 +62,20 @@ TimeZone(){
 
 #安装EPEL源
 EPEL(){
-    yum install -y epel-release
-    yum clean all
-    yum makecache
+    yum install -y epel-release > /dev/null 2>&1
+    yum clean all > /dev/null 2>&1
+    yum makecache > /dev/null 2>&1
 }
 
 #安装常用软件包
 InstallApp(){
-    yum install -y wget curl vim screen zip unzip net-tools psmisc bash-completion iftop htop
+    Blue "安装常用软件..."
+    yum install -y wget curl vim screen zip unzip net-tools psmisc bash-completion iftop htop > /dev/null 2>&1
 }
 
 #修改主机名
 Rename(){
+    Blue "设置主机名..."
     hostnamectl set-hostname $sname
     sed -i "1s/127.0.0.1   /127.0.0.1   $sname /g" /etc/hosts
     hostname
@@ -82,30 +86,30 @@ Rename(){
 StopSElinux(){
     sed -i '7s/enforcing/disabled/g' /etc/selinux/config
     sed -n '7p' /etc/selinux/config
-    Green "----------------------------------------\n关闭SElinux成功\n----------------------------------------"
+    Green "----------------------------------------\n关闭SElinux成功\n---------------------------------------"
 }
 
 #设置防火墙
 Firewall(){
     systemctl start firewalld
-    firewall-cmd --zone=public --add-service=http --permanent > /dev/null
-    firewall-cmd --zone=public --add-service=https --permanent > /dev/null
-    firewall-cmd --zone=public --add-service=ftp --permanent > /dev/null
-    firewall-cmd --zone=public --add-port=20/tcp --permanent > /dev/null
-    firewall-cmd --zone=public --add-port=21/tcp --permanent > /dev/null
-    firewall-cmd --zone=public --add-port=80/tcp --permanent > /dev/null
-    firewall-cmd --zone=public --add-port=443/tcp --permanent > /dev/null
-    firewall-cmd --reload > /dev/null
+    firewall-cmd --zone=public --add-service=http --permanent > /dev/null 2>&1
+    firewall-cmd --zone=public --add-service=https --permanent > /dev/null 2>&1
+    firewall-cmd --zone=public --add-service=ftp --permanent > /dev/null 2>&1
+    #firewall-cmd --zone=public --add-port=20/tcp --permanent > /dev/null 2>&1
+    #firewall-cmd --zone=public --add-port=21/tcp --permanent > /dev/null 2>&1
+    firewall-cmd --zone=public --add-port=80/tcp --permanent > /dev/null 2>&1
+    firewall-cmd --zone=public --add-port=443/tcp --permanent > /dev/null 2>&1
+    firewall-cmd --reload > /dev/null 2>&1
     firewall-cmd --list-all
     Green "---------------------------------------\n防火墙添加端口和服务成功\n----------------------------------------"
-    systemctl enable firewalld > /dev/null
+    systemctl enable firewalld > /dev/null 2>&1
     Green "---------------------------------------\n设置防火墙开机自启动成功\n----------------------------------------"
 }
 
 #修改ssh密钥登陆
 SSH(){
     mkdir $klj
-    unzip $skey -d  $HOME
+    unzip $skey -d  $HOME > /dev/null 2>&1
     mv $HOME/key/* $klj
     cat $klj/id_rsa.pub >> $klj/authorized_keys
     chmod 600 $klj/authorized_keys
@@ -158,6 +162,13 @@ Rm-all(){
     rm -rf $HOME/git*
 }
 
+##重启计算机
+Reboot(){
+    Red "3秒后重启服务器..."
+    sleep 3
+    reboot
+}
+
 #main
 SourceUpdate
 YumUpdate
@@ -172,5 +183,4 @@ SSH
 Ipconfig
 #GitInstall
 Rm-all
-#重启计算机
-reboot
+Reboot
