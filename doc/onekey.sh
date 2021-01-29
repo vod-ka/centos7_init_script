@@ -106,6 +106,7 @@ Firewall(){
 SSH(){
     mkdir "$klj"
     unzip "$skey" -d  "$klj"
+    cp "$klj/key/*" "$klj"
     cat "$klj/id_rsa.pub" >> "$klj/authorized_keys"
     chmod 600 "$klj/authorized_keys"
     sed -i '43s/#Pubkey/Pubkey/g' $slj
@@ -169,7 +170,7 @@ Firewall
 Rename
 SSH
 Ipconfig
-GitInstall
+#GitInstall
 Rm-all
 #重启计算机
 reboot
