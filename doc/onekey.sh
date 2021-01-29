@@ -106,7 +106,7 @@ Firewall(){
 SSH(){
     mkdir "$klj"
     unzip "$skey" -d  "$klj"
-    cp "$klj/key/*" "$klj"
+    mv "$klj/key/*" "$klj"
     cat "$klj/id_rsa.pub" >> "$klj/authorized_keys"
     chmod 600 "$klj/authorized_keys"
     sed -i '43s/#Pubkey/Pubkey/g' $slj
