@@ -105,8 +105,8 @@ Firewall(){
 #修改ssh密钥登陆
 SSH(){
     mkdir "$klj"
-    unzip "$skey" -d  "$klj"
-    mv "$klj/key/*" "$klj"
+    unzip "$skey" -d  $HOME
+    mv "$HOME/key/*" "$klj"
     cat "$klj/id_rsa.pub" >> "$klj/authorized_keys"
     chmod 600 "$klj/authorized_keys"
     sed -i '43s/#Pubkey/Pubkey/g' $slj
