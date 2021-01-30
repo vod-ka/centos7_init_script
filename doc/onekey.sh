@@ -174,13 +174,6 @@ Rm-all(){
     rm -rf $HOME/git*
 }
 
-##重启计算机
-ChongQi(){
-    Red "3秒后重启服务器..."
-    sleep 3
-    reboot
-}
-
 #main
 Title
 SourceUpdate
@@ -196,4 +189,6 @@ SSH
 Ipconfig
 #GitInstall
 Rm-all
-ChongQi
+Red "3秒后重启服务器..."
+sleep 3
+reboot
