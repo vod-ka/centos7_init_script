@@ -30,6 +30,18 @@ Blue(){
     echo -e "\033[34;01m$1\033[0m"
 }
 
+#标题
+Title(){
+    clear
+    Red "#===============================================================================#"
+    Red "#                                                                               #"
+    Red "#          @Name: centos7_init_script                                           #"
+    Red "#          @Author: Aliao                                                       #"
+    Red "#          @Repository: https://github.com/vod-ka/centos7_init_script           #"
+    Red "#                                                                               #"
+    Red "#===============================================================================#"
+}
+
 #更新yum源
 SourceUpdate(){
     mv -f /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
@@ -163,13 +175,14 @@ Rm-all(){
 }
 
 ##重启计算机
-REBOOT(){
+ChongQi(){
     Red "3秒后重启服务器..."
     sleep 3
     reboot
 }
 
 #main
+Title
 SourceUpdate
 YumUpdate
 TimeZone
@@ -183,4 +196,4 @@ SSH
 Ipconfig
 #GitInstall
 Rm-all
-REBOOT
+ChongQi
