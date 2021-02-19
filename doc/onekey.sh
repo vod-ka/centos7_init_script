@@ -45,7 +45,7 @@ Title(){
 #更新yum源
 SourceUpdate(){
     mv -f /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-    cd /etc/yum.repos.d/ || exit 0
+    cd /etc/yum.repos.d/
     curl -sOL http://mirrors.aliyun.com/repo/Centos-7.repo
     mv -f Centos-7.repo CentOS-Base.repo
     yum clean all > /dev/null 2>&1
@@ -158,7 +158,7 @@ GitInstall(){
     yum install -y wget gcc gcc-c++ zlib-devel perl-ExtUtils-MakeMaker asciidoc xmlto openssl-devel
     wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.29.2.tar.xz
     tar -xvJf git-2.29.2.tar.xz
-    cd $HOME/git-2.29.2 || exit 0
+    cd $HOME/git-2.29.2
     ./configure --prefix=/usr/local/git
     make && make install
     echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc
